@@ -57,7 +57,6 @@
         .chinese-intro { text-align: center; margin-bottom: 60px; }
         .chinese-intro h1 { font-family: var(--font-serif) !important; font-size: 2.6rem; font-weight: 600; color: var(--text-main); margin-bottom: 18px; letter-spacing: 2px; }
         
-        /* 【新增調整】輔助文字：極細、小字、透氣感 */
         .helper-text {
             font-family: var(--font-sans) !important;
             font-size: 0.9rem !important;
@@ -70,8 +69,20 @@
 
         .section-card { background: var(--card-bg); border: 1px solid var(--border-light); padding: 40px; margin-bottom: 30px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.02); }
         .section-card h2 { font-family: var(--font-serif) !important; font-size: 1.35rem; font-weight: 600; color: var(--accent-color); margin-bottom: 25px; border-bottom: 1px solid var(--border-light); padding-bottom: 15px; text-align: center; }
-        li { font-family: var(--font-sans) !important; margin-bottom: 18px; color: var(--text-main); font-size: 0.95rem; padding-left: 20px; position: relative; }
+        
+        /* 【修正區】確保列表只有一個點 */
+        ul { list-style: none !important; padding: 0 !important; }
+        li { 
+            font-family: var(--font-sans) !important; 
+            margin-bottom: 18px; 
+            color: var(--text-main); 
+            font-size: 0.95rem; 
+            padding-left: 20px; 
+            position: relative; 
+            list-style: none !important; /* 強制移除原生符號 */
+        }
         li::before { content: '•'; position: absolute; left: 0; color: var(--accent-color); }
+        
         strong { font-family: var(--font-serif) !important; font-weight: 600; }
 
         .warning-card { background: #faf7f5; border: 1px solid rgba(193, 154, 154, 0.25); }
@@ -80,12 +91,7 @@
 
         @media (max-width: 600px) {
             .hero-image-style { padding: 10vh 20px 25vh !important; }
-            /* 【手機版進階微調】字體更小、更細 */
-            .helper-text { 
-                font-size: 0.78rem !important; 
-                line-height: 2.4 !important; 
-                padding: 0 15px !important;
-            }
+            .helper-text { font-size: 0.78rem !important; line-height: 2.4 !important; padding: 0 15px !important; }
             .chinese-intro h1 { font-size: 2.1rem !important; }
             .scroll-indicator { bottom: 20vh !important; }
         }
@@ -151,33 +157,10 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // 標記瀏覽器已支援並執行 JS（啟動安全降級機制）
             document.body.classList.add("js-enabled");
-            
             var reveals = document.querySelectorAll(".reveal");
-            
-            if ('IntersectionObserver' in window) {
-                var revealObserver = new IntersectionObserver(function(entries, observer) {
-                    entries.forEach(function(entry) {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add("visible");
-                        }
-                    });
-                }, {
-                    root: null,
-                    rootMargin: "0px",
-                    threshold: 0.02 /* 極低觸發點，確保手機滑動必能顯現 */
-                });
-
-                reveals.forEach(function(reveal) {
-                    revealObserver.observe(reveal);
-                });
-            } else {
-                /* 老舊手機核心直接全開顯示 */
-                reveals.forEach(function(reveal) {
-                    reveal.classList.add("visible");
-                });
-            }
+            var obs = new IntersectionObserver(e => e.forEach(i => i.isIntersecting && i.target.classList.add("visible")), {threshold: 0.02});
+            reveals.forEach(r => obs.observe(r));
         });
     </script>
 </body>

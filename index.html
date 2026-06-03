@@ -45,6 +45,52 @@
         .monogram { font-family: var(--font-serif) !important; font-size: 1rem; font-weight: 400; letter-spacing: 4px; display: flex; align-items: center; gap: 15px; }
         .monogram .line { width: 60px; height: 1px; background-color: var(--text-main); }
 
+        /* ====== 新增：錯位日期主視覺 ====== */
+        .date-hero {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            margin: auto; 
+            font-family: var(--font-serif) !important;
+            user-select: none;
+        }
+
+        .date-hero .month {
+            position: absolute;
+            top: -15px;
+            left: -20px;
+            font-size: 6.5rem;
+            line-height: 1;
+            /* 模擬圖片中的金屬質感 */
+            background: linear-gradient(135deg, #a69172 0%, var(--accent-color) 50%, #6b5c49 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .date-hero .day {
+            position: absolute;
+            bottom: -15px;
+            right: -20px;
+            font-size: 6.5rem;
+            line-height: 1;
+            background: linear-gradient(135deg, #a69172 0%, var(--accent-color) 50%, #6b5c49 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .date-hero .divider {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 1.5px;
+            height: 160px;
+            /* 讓線條兩端有漸弱消失的優雅感 */
+            background: linear-gradient(to bottom, transparent, var(--accent-color), transparent);
+            transform: translate(-50%, -50%) rotate(38deg);
+            opacity: 0.8;
+        }
+        /* ================================== */
+
         .english-invite { font-family: var(--font-serif) !important; font-size: 0.95rem; font-style: italic; color: var(--text-muted); line-height: 2; margin-bottom: 5vh; }
         .english-invite span { display: block; margin-bottom: 5px; }
 
@@ -70,7 +116,6 @@
         .section-card { background: var(--card-bg); border: 1px solid var(--border-light); padding: 40px; margin-bottom: 30px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.02); }
         .section-card h2 { font-family: var(--font-serif) !important; font-size: 1.35rem; font-weight: 600; color: var(--accent-color); margin-bottom: 25px; border-bottom: 1px solid var(--border-light); padding-bottom: 15px; text-align: center; }
         
-        /* 【修正區】確保列表只有一個點 */
         ul { list-style: none !important; padding: 0 !important; }
         li { 
             font-family: var(--font-sans) !important; 
@@ -79,7 +124,7 @@
             font-size: 0.95rem; 
             padding-left: 20px; 
             position: relative; 
-            list-style: none !important; /* 強制移除原生符號 */
+            list-style: none !important;
         }
         li::before { content: '•'; position: absolute; left: 0; color: var(--accent-color); }
         
@@ -94,6 +139,12 @@
             .helper-text { font-size: 0.78rem !important; line-height: 2.4 !important; padding: 0 15px !important; }
             .chinese-intro h1 { font-size: 2.1rem !important; }
             .scroll-indicator { bottom: 20vh !important; }
+            
+            /* 手機版日期主視覺縮放 */
+            .date-hero { width: 140px; height: 140px; }
+            .date-hero .month { font-size: 5rem; left: -10px; }
+            .date-hero .day { font-size: 5rem; right: -10px; }
+            .date-hero .divider { height: 130px; }
         }
     </style>
 </head>
@@ -101,6 +152,13 @@
 
     <header class="hero-image-style">
         <div class="monogram">V . I . P <span class="line"></span> C . C</div>
+        
+        <div class="date-hero">
+            <div class="month">06</div>
+            <div class="divider"></div>
+            <div class="day">13</div>
+        </div>
+
         <div class="english-invite">
             <span>Kindly reserve your time to celebrate our new chapter</span>
             <span>at the HOUSEWARMING PARTY hosted by TOOTH</span>
@@ -144,7 +202,6 @@
                 <li><strong>衛生控管：</strong>單一部位採「紅點標記」機制，絕不重複提供給下一位賓客。</li>
                 <li><strong>安全詞🫸：</strong>若感身心不適，請立即說出「<strong>紅綠燈</strong>」，一切互動將無條件即刻停止。</li>
             </ul>
-
         </div>
         
         <div class="section-card warning-card reveal">

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Tooth PARTY ｜ 專屬邀請函</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Noto+Serif+TC:wght@400;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #f4f1eb;
+            --text-main: #2c2c2c;
+            --text-muted: #5e5e5e;
+            --accent-color: #8c7e6c;
+            --card-bg: #ffffff;
+            --border-light: rgba(44, 44, 44, 0.1);
+            
+            /* 【強制字體定義】加入手機原生明體/宋體字型名稱，確保手機100%變更成功 */
+            --font-serif: 'Cormorant Garamond', 'Noto Serif TC', 'Baskerville', 'Georgia', 'Times New Roman', 'Songti TC', 'Apple LiSung', '仿宋體', '微軟新細明體', serif;
+            --font-sans: 'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang TC", "Noto Sans CJK TC", "Microsoft JhengHei", sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            /* 全局內文一律強制使用清晰易讀的黑體(無襯線) */
+            font-family: var(--font-sans) !important;
+            line-height: 1.8;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 首屏佈局結構優化 */
+        .hero-image-style {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            text-align: center;
+            padding: 12vh 20px 25vh; /* 增加底部基底，將整體內容強制抬升 */
+            position: relative;
+            background: #f4f1eb;
+            background: radial-gradient(circle at 50% 0%, #fcfbf9 0%, #f4f1eb 100%);
+        }
+
+        /* 頂部縮寫：調轉為古典襯線體 */
+        .monogram {
+            font-family: var(--font-serif) !important;
+            font-size: 1rem;
+            font-weight: 400;
+            letter-spacing: 4px;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .monogram .line {
+            width: 60px;
+            height: 1px;
+            background-color: var(--text-main);
+        }
+
+        /* 英文邀請文案：調轉為優雅襯線體 */
+        .english-invite {
+            font-family: var(--font-serif) !important;
+            font-size: 0.95rem;
+            font-style: italic;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            line-height: 2;
+            margin-bottom: 5vh; /* 增加與箭頭的內部間距 */
+        }
+
+        .english-invite span {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* 【手機極限上移】首頁箭頭位置全新調校 */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 18vh; /* 從原本的 8vh/10vh 大幅調升至 18vh，確保絕對在螢幕中上方 */
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--accent-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            animation: fadeDown 2s infinite ease-in-out;
+            cursor: pointer;
+            z-index: 99;
+            padding: 10px;
+        }
+
+        .scroll-indicator svg {
+            width: 36px; /* 再次放大箭頭，使其極度明顯 */
+            height: 36px;
+            stroke-width: 2; /* 加粗線條 */
+        }
+
+        @keyframes fadeDown {
+            0% { transform: translate(-50%, -6px); opacity: 0.2; }
+            50% { opacity: 1; }
+            100% { transform: translate(-50%, 6px); opacity: 0.2; }
+        }
+
+        /* 中文主要內容區塊 */
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 60px 20px 100px;
+        }
+
+        .chinese-intro {
+            text-align: center;
+            margin-bottom: 60px;
+            font-size: 1.05rem;
+            color: var(--text-muted);
+        }
+
+        /* 【字體調轉】大標題強制使用古典襯線體（明體/宋體） */
+        .chinese-intro h1 {
+            font-family: var(--font-serif) !important;
+            font-size: 2.6rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 18px;
+            letter-spacing: 2px;
+        }
+        
+        /* 內文維持黑體 */
+        .chinese-intro p {
+            font-family: var(--font-sans) !important;
+        }
+
+        /* 內容卡片與手機防白畫面降級機制 */
+        .section-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-light);
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.02);
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 網頁順暢載入後才執行動畫，若手機JS失效則直接顯示，防呆不留白 */
+        body.js-enabled .section-card {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        body.js-enabled .section-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 【字體調轉】區塊標題強制使用尊榮襯線體 */
+        .section-card h2 {
+            font-family: var(--font-serif) !important;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: var(--accent-color);
+            margin-bottom: 25px;
+            letter-spacing: 1.5px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 15px;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* 清單內文保持清晰無襯線黑體 */
+        li {
+            font-family: var(--font-sans) !important;
+            margin-bottom: 18px;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            position: relative;
+            padding-left: 20px;
+            letter-spacing: 0.5px;
+            line-height: 1.8;
+        }
+
+        li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            top: -1px;
+            color: var(--accent-color);
+            font-size: 1.2rem;
+        }
+
+        /* 【字體調轉】前綴重點字強制改為醒目襯線體 */
+        strong {
+            font-family: var(--font-serif) !important;
+            font-weight: 600;
+            color: var(--text-main);
+            font-size: 1.05rem;
+            margin-right: 4px;
+        }
+
+        /* 警告卡片樣式 */
+        .warning-card {
+            background: #faf7f5;
+            border: 1px solid rgba(193, 154, 154, 0.25);
+        }
+
+        .warning-card h2 {
+            color: #a87b7b;
+            border-bottom-color: rgba(193, 154, 154, 0.15);
+        }
+
+        .warning-card p {
+            font-family: var(--font-sans) !important;
+            color: #7a5c5c;
+            font-size: 0.95rem;
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+
+        /* =========================================================
+           手機端行動裝置極致優化專區 (RWD)
+           ========================================================= */
+        @media (max-width: 600px) {
+            .hero-image-style { 
+                padding: 10vh 20px 30vh !important; /* 手機版底部墊高30%，強迫將上面的字與箭頭往上推 */
+            }
+            .monogram { 
+                font-size: 0.95rem !important; 
+                letter-spacing: 3px !important; 
+            }
+            .monogram .line { width: 35px; }
+            
+            .english-invite { 
+                font-size: 0.82rem !important; 
+                line-height: 1.8 !important;
+                margin-bottom: 3vh !important;
+            }
+            
+            /* 【手機箭頭極致往上移】防導覽列遮擋 */
+            .scroll-indicator {
+                bottom: 22vh !important; /* 手機端直接設定在極高的 22% 高度，絕對會出現在中段偏上 */
+            }
+            .scroll-indicator svg {
+                width: 32px !important;
+                height: 32px !important;
+            }
+            
+            /* 手機端字體加強覆蓋 */
+            .chinese-intro h1 { 
+                font-family: var(--font-serif) !important;
+                font-size: 2.1rem !important; 
+                font-weight: 600 !important;
+            }
+            .section-card h2 { 
+                font-family: var(--font-serif) !important;
+                font-size: 1.25rem !important; 
+                font-weight: 600 !important;
+            }
+            strong { 
+                font-family: var(--font-serif) !important;
+                font-size: 1.05rem !important; 
+                font-weight: 600 !important;
+            }
+            li { 
+                font-family: var(--font-sans) !important;
+                font-size: 0.93rem !important; 
+            }
+            
+            .container { padding: 40px 15px 80px; }
+            .section-card { padding: 30px 20px; margin-bottom: 25px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="hero-image-style">
+        <div class="monogram">
+            V . I . P <span class="line"></span> C . C
+        </div>
+
+        <div class="english-invite">
+            <span>Kindly reserve your time to celebrate our new chapter</span>
+            <span>at the HOUSEWARMING PARTY hosted by TOOTH</span>
+            <span>Private Gathering / Details to follow</span>
+        </div>
+
+        <div class="scroll-indicator" onclick="window.scrollBy({top: window.innerHeight, behavior: 'smooth'});">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+            </svg>
+        </div>
+    </header>
+
+    <main class="container">
+        
+        <div class="chinese-intro reveal">
+            <h1>Dear 可可</h1>
+            <p>誠摯邀請您參與本次專屬活動<br>為了確保您在安全且受尊重的狀態下展演<br>請詳閱以下為您量身打造的規範</p>
+        </div>
+
+        <div class="section-card reveal">
+            <h2>時間與排程</h2>
+            <ul>
+                <li><strong>活動時間：</strong>預計中午 12:30 開始。</li>
+                <li><strong>輪替機制：</strong>每位客人互動 50 分鐘，盛酒器每 1 小時輪替一次。</li>
+                <li><strong>彈性安排：</strong>時間高度彈性，可提早離開或晚到（時段皆可為您專屬安排）。</li>
+            </ul>
+        </div>
+
+        <div class="section-card reveal">
+            <h2>服裝與展演設定</h2>
+            <ul>
+                <li><strong>服裝建議：</strong>全裸佳，亦可著內衣、泳衣或使用防護貼遮點。</li>
+                <li><strong>展演方式：</strong>歡迎展現各種創意姿勢。您將被當作專屬酒杯招待客人，可接受互動使用，或僅供純粹觀賞。</li>
+            </ul>
+        </div>
+
+        <div class="section-card reveal">
+            <h2>嚴格互動規則與衛生控管</h2>
+            <ul>
+                <li><strong>單一行為限制：</strong>客人僅限以「舔、吸、啜飲」的方式飲用身上的液體，嚴禁任何其他形式的肢體互動。</li>
+                <li><strong>紅點標記機制：</strong>為確保衛生，客人使用過的身體部位將會貼上「紅點貼紙」標示，該部位絕對不會重複提供給下一位客人使用。</li>
+            </ul>
+        </div>
+
+        <div class="section-card reveal">
+            <h2>您的絕對自主權</h2>
+            <ul>
+                <li>我們強調盛酒器的「自我意識」。您可以全權決定要用身體的哪些部位（如胸脯、股溝等敏感處）來盛酒，以及哪些地方絕對不能碰。一切由您作主。</li>
+            </ul>
+        </div>
+
+        <div class="section-card warning-card reveal">
+            <h2>謹慎評估提醒</h2>
+            <p>由於互動過程會實際接觸到客人的嘴巴與口水，且本次活動沒有設立黑名單，請您務必謹慎評估自身的接受度。</p>
+        </div>
+
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // 標記瀏覽器已支援並執行 JS（啟動安全降級機制）
+            document.body.classList.add("js-enabled");
+            
+            var reveals = document.querySelectorAll(".reveal");
+            
+            if ('IntersectionObserver' in window) {
+                var revealObserver = new IntersectionObserver(function(entries, observer) {
+                    entries.forEach(function(entry) {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add("visible");
+                        }
+                    });
+                }, {
+                    root: null,
+                    rootMargin: "0px",
+                    threshold: 0.02 /* 極低觸發點，確保手機滑動必能顯現 */
+                });
+
+                reveals.forEach(function(reveal) {
+                    revealObserver.observe(reveal);
+                });
+            } else {
+                /* 老舊手機核心直接全開顯示 */
+                reveals.forEach(function(reveal) {
+                    reveal.classList.add("visible");
+                });
+            }
+        });
+    </script>
+</body>
+</html>
